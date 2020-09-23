@@ -1,4 +1,3 @@
-from types import new_class
 import discord
 from discord.ext import commands
 
