@@ -1,5 +1,5 @@
 import yonosumi_utils
-from yonosumi_utils.embed import yonosumiEmbed
+from yonosumi_utils.embed import YonosumiEmbed
 import yonosumi_utils.my_channel as my_channel
 import discord
 from discord.ext import commands
