@@ -20,7 +20,7 @@ class Eval(commands.Cog):
         return content.strip('` \n')
 
     @commands.command(name="eval",aliases=["do","dev"])
-    async def _eval(self, ctx, *, cmd=None):
+    async def _eval(self, ctx, *, code):
         # https://github.com/Rapptz/RoboDanny/blob/rewrite/cogs/admin.py#L216-L261
         if staff.is_admin(self.bot, ctx):
             env = {
@@ -38,7 +38,7 @@ class Eval(commands.Cog):
             if ctx.message.attachments:
                 body = (await ctx.message.attachments[0].read()).decode('utf-8')
             else:
-                body = self.cleanup_code(cmd)
+                body = self.cleanup_code(code)
             stdout = io.StringIO()
 
             to_compile = f'async def func():\n{textwrap.indent(body, "  ")}'
