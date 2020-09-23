@@ -27,7 +27,7 @@ class Cog(commands.Cog):
                 status_flag = True
             elif onlinetype == "reset":
                 membercount = len(self.bot.users)
-                game = discord.Game(f"r/help｜{membercount} members")
+                game = discord.Game(f"世の隅の{membercount}人と一緒にいるよ！")
                 await self.bot.change_presence(status=discord.Status.online,activity=game)
                 await ctx.send(f"{ctx.author.mention}->ステータスをリセットしました！")
                 status_flag = False
@@ -45,7 +45,7 @@ class Cog(commands.Cog):
         if status_flag == False:
             await self.bot.wait_until_ready()
             membercount = len(self.bot.users)
-            game = discord.Game(f"y/help｜世の隅の{membercount}人と一緒にいるよ！")
+            game = discord.Game(f"世の隅の{membercount}人と一緒にいるよ！")
             await self.bot.change_presence(status=discord.Status.online,activity=game)
         else:
             pass

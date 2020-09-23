@@ -1,7 +1,6 @@
 # coding: UTF-8
 import discord
 from discord.ext import commands
-import dropbox
 import os
 
 TOKEN = os.environ['TOKEN']
@@ -40,7 +39,7 @@ class MyBot(commands.Bot):
                 self.loaded = True
         print('------')
         membercount = len(bot.users)
-        game = discord.Game(f"y/help｜世の隅の{membercount}人と一緒にいるよ！")
+        game = discord.Game(f"世の隅の{membercount}人と一緒にいるよ！")
         await bot.change_presence(status=discord.Status.online,activity=game)
 
 bot = MyBot(command_prefix=["y/","y1"])
