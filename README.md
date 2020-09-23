@@ -1,7 +1,7 @@
 # yonosumi_official_bot
 This is the official Bot source used at the "yonosumi" of the Discord server. / Discordサーバーの"世の隅の端"で使われている公式Botのソースです。
 
-#主なファイル構成 / Main file structure
+# 主なファイル構成 / Main file structure
 
 ・[main.py](https://github.com/Saroniii/yonosumi_official_bot/blob/master/main.py)...基礎ファイル / Main file
 
