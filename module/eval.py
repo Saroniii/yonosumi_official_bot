@@ -5,6 +5,7 @@ import ast
 import io
 import textwrap
 import traceback
+from yonosumi_utils.permissions import YonosumiStaff as staff
 
 class Eval(commands.Cog):
     def __init__(self, bot):
@@ -22,7 +23,7 @@ class Eval(commands.Cog):
     @commands.command(name="eval",aliases=["do","dev"])
     async def _eval(self, ctx, *, cmd=None):
         # https://github.com/Rapptz/RoboDanny/blob/rewrite/cogs/admin.py#L216-L261
-        if [i for i in self.bot.get_guild(703584979015434251).get_member(ctx.author.id).roles if i.id == 703585147735507024]:
+        if staff.is_admin(self.bot, ctx):
             env = {
                 'bot': self.bot,
                 'ctx': ctx,
