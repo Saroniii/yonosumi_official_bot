@@ -1,5 +1,5 @@
 import discord
-from saica_utils.embed import SaicaEmbed
+from yonosumi_utils.embed import YonosumiEmbed
 
 class SaicaMsg:
     

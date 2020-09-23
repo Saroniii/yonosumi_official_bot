@@ -1,6 +1,6 @@
 from discord import Embed
 
-class SaicaEmbed(Embed):
+class YonosumiEmbed(Embed):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         try:
