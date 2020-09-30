@@ -42,6 +42,8 @@ class MyBot(commands.Bot):
         game = discord.Game(f"世の隅の{membercount}人と一緒にいるよ！")
         await bot.change_presence(status=discord.Status.online,activity=game)
 
+intent :discord.Intents = discord.Intents.default()
+
 bot = MyBot(command_prefix=["y/","y1"])
 
 bot.run(TOKEN)
