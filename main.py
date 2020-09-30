@@ -43,7 +43,8 @@ class MyBot(commands.Bot):
         await bot.change_presence(status=discord.Status.online,activity=game)
 
 intent :discord.Intents = discord.Intents.default()
-
+intent.members = True
+intent.presences = True
 bot = MyBot(command_prefix=["y/","y1"])
 
 bot.run(TOKEN)
