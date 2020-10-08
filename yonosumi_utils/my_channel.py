@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 from yonosumi_utils.embed import YonosumiEmbed
+from typing import Union
 
 def check_owner(member :discord.Member, channel :discord.TextChannel) -> bool:
     """
@@ -19,3 +20,14 @@ def is_nedoko(channel :discord.TextChannel) -> bool:
         return True
     else:
         return False
+
+def get_topic(channel :discord.TextChannel, splited :bool =False) -> Union[str, list]:
+    """
+    トピック情報を取得します。
+    """
+    topic :str = channel.topic
+    if splited == False:
+        return topic
+    
+    else:
+        return topic.splitlines()
