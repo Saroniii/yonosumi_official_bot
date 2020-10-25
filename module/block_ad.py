@@ -17,7 +17,7 @@ class Cog(commands.Cog):
         
         msg :discord.Message 
 
-        async for msg in message.channel.history(limit=25, oldest_first=True):
+        async for msg in message.channel.history(limit=25):
             print("c")
             if msg.content == message.content and not msg == message:
                 print("d")
