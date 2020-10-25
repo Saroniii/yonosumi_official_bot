@@ -19,7 +19,7 @@ class Cog(commands.Cog):
 
         async for msg in message.channel.history(limit=25, oldest_first=True):
             print("c")
-            if msg.content == message.content and not msg.id == message.id:
+            if msg.content == message.content and not msg == message:
                 print("d")
                 await message.delete()
                 content = f"{message.guild}の{message.channel.mention}での重複投稿を検知したため、対象の投稿を削除しました。"
