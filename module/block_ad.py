@@ -11,12 +11,16 @@ class Cog(commands.Cog):
     async def on_message(self, message :discord.Message):
         ad_channel_id = 572737509923225600
         if message.author.bot or not message.channel.id == ad_channel_id:
-            return
+            return print("b")
+
+        print("a")
         
         msg :discord.Message 
 
         async for msg in message.channel.history(limit=25, oldest_first=True):
+            print("c")
             if msg.content == message.content and not msg.id == message.id:
+                print("d")
                 await message.delete()
                 content = f"{message.guild}の{message.channel.mention}での重複投稿を検知したため、対象の投稿を削除しました。"
                 embed = discord.Embed(
