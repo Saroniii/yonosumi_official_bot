@@ -6,8 +6,7 @@ from asyncio import TimeoutError
 
 import yonosumi_utils
 
-reaction_list = ["✏", "🔒"
-]
+reaction_list = ["✏", "🔒"]
 
 class Cog(commands.Cog):
 
@@ -76,18 +75,22 @@ class Cog(commands.Cog):
         if not str(payload.emoji) in reaction_list:
             return
         
+        await message.remove_reaction(payload.emoji, payload.member)
+
         if str(payload.emoji) == "✏":
             
             question = await channel.send(f"{payload.member.mention}->変更したい名前を入力してください。")
             
             def check(m):
                 return m.channel == channel and m.author == payload.member
+            
             try:
                 msg = await self.bot.wait_for('message', check=check, timeout=60.0)
             except TimeoutError:
                 return await question.edit(content=f"{payload.member.mention}->規定時間内に応答がなかったので入力待機を解除しました！")
             except:
                 return
+            
             if len(msg.content) > 0:
                 await channel.edit(name=msg.content)
                 vc = self.bot.get_channel(int(yonosumi_utils.get_topic(channel, splited=True)[1]))
@@ -107,10 +110,12 @@ class Cog(commands.Cog):
                 return await question.edit(content=f"{payload.member.mention}->規定時間内に応答がなかったので入力待機を解除しました！")
             except:
                 return
+            
             try:
                 num = int(msg.content)
             except:
                 return await question.edit(content=f"{payload.member.mention}->不正な値が渡されました！")
+
             if not num > 100:
                 vc: discord.VoiceChannel = self.bot.get_channel(int(yonosumi_utils.get_topic(channel, splited=True)[1]))
                 await vc.edit(user_limit=num)
