@@ -6,7 +6,8 @@ from asyncio import TimeoutError
 
 import yonosumi_utils
 
-reaction_list = ["✏", "🔒"]
+reaction_list = ["✏", "🔒"
+]
 
 class Cog(commands.Cog):
 
@@ -41,12 +42,12 @@ class Cog(commands.Cog):
                 )
             
             await member.move_to(voicechannel, reason = "VCの自動生成が完了したため")
-            base_embed = discord.Embed(
+            control_embed = discord.Embed(
                 title = f"{member.name}の溜まり場へようこそ！",
-                description = self.voice.base_embed_description()
+                description = self.voice.control_embed_description()
             )
             
-            msg: discord.Message = await textchannel.send(embed=base_embed)
+            msg: discord.Message = await textchannel.send(embed=control_embed)
             
             global reaction_list
 
