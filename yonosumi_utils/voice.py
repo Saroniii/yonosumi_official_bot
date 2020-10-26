@@ -91,5 +91,8 @@ class voice:
                 if topic[1] in channels:
                     await channel.delete(reason="誰もいないため")
 
+    def control_panel_description():
+        return "ここでは、該当するリアクションを押すことで様々な設定を行うことが出来ます。\n\n✏：チャンネル名の変更\n\n🔒：利用可能人数の制限\n\n⚠：NSFWの有無"
+
         
 
