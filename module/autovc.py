@@ -10,8 +10,16 @@ class Cog(commands.Cog):
 
     @commands.Cog.listener()
     async def on_voice_state_update(self, member :discord.Member, before :discord.VoiceState, after :discord.VoiceState):
-        
-        if self.voice.is_active(member.voice.channel, count_bots = False) and self.voice.is_generate_voice_channel(member.voice.channel):
+        category_id = 770140316078309416
+        category: discord.CategoryChannel = self.bot.get_channel(category_id)
+
+        if member.voice.channel is None:
+            await self.voice.clean_null_auto_text_channels(
+                category,
+                await self.voice.clean_null_auto_voice_channels(category)
+                )
+
+        elif self.voice.is_active(member.voice.channel, count_bots = False) and self.voice.is_generate_voice_channel(member.voice.channel):
             author_channel :discord.VoiceChannel = member.voice.channel
             voicechannel: discord.VoiceChannel = await author_channel.category.create_voice_channel(
                 name=f"{member.name}の溜まり場"
