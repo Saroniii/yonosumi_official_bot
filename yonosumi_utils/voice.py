@@ -3,6 +3,8 @@ from discord.ext import commands
 from yonosumi_utils import my_channel
 from typing import Union, Callable, List
 
+import yonosumi_utils
+
 class voice:
 
     def is_active(self, channel: discord.VoiceChannel, count_bots =True) -> bool:
@@ -94,7 +96,21 @@ class voice:
                 if topic[1] in channels:
                     await channel.delete(reason="誰もいないため")
 
+    async def get_auto_voice_owner(self, channel: discord.TextChannel, bot: commands.Bot) -> Union[discord.Member, None]:
+        """
+        自動生成されたチャンネルのオーナーのメンバーオブジェクトを返します。
+        取得できなかった場合はNoneが返ります。
+        """
+        topic = yonosumi_utils.get_topic(channel, splited=True)[1]
+        try:
+            return await channel.guild.fetch_member(int(topic))
+        except:
+            return None
+
     def control_panel_description() -> str:
+        """
+        コントロールパネルのdescriptionを呼び出すショートカット関数です。
+        """
         return "ここでは、該当するリアクションを押すことで様々な設定を行うことが出来ます。\n\n✏：チャンネル名の変更\n\n🔒：利用可能人数の制限\n\n⚠：NSFWの有無"
 
         
