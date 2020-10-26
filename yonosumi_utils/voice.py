@@ -46,3 +46,10 @@ class voice:
             return True
         else:
             return False
+
+    def is_auto_voice_channel(self, channel :discord.VoiceChannel):
+        voice_category_id = 770140316078309416
+        if voice_category_id == channel.id and not self.is_generate_voice_channel(channel):
+            return True
+        else:
+            return False 
