@@ -13,10 +13,10 @@ class Cog(commands.Cog):
         
         if self.voice.is_active(member.voice.channel, count_bots = False) and self.voice.is_generate_voice_channel:
             author_channel :discord.VoiceChannel = member.voice.channel
-            voicechannel: discord.VoiceChannel = await author_channel.category.create_voicechannel(
+            voicechannel: discord.VoiceChannel = await author_channel.category.create_voice_channel(
                 name=f"{member.name}の溜まり場"
                 )
-            textchannel: discord.TextChannel = await author_channel.category.create_textchannel(
+            textchannel: discord.TextChannel = await author_channel.category.create_text_channel(
                 name=f"{member.name}の溜まり場",
                 topic=voice.generate_auto_voice_topic(
                     voice=voicechannel,
