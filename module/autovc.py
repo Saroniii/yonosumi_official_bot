@@ -3,13 +3,15 @@ from discord.ext import commands
 from yonosumi_utils import voice
 
 class Cog(commands.Cog):
+
     def __init__(self, bot):
         self.bot=bot
-
+        self.voice = voice()
 
     @commands.Cog.listener()
     async def on_voice_state_update(self, member :discord.Member, before :discord.VoiceState, after :discord.VoiceState):
-        if voice.is_active(member.voice.channel, count_bots = False) and voice.is_generate_voice_channel:
+        
+        if self.voice.is_active(member.voice.channel, count_bots = False) and self.voice.is_generate_voice_channel:
             author_channel :discord.VoiceChannel = member.voice.channel
             voicechannel: discord.VoiceChannel = await author_channel.category.create_voicechannel(
                 name=f"{member.name}の溜まり場"
