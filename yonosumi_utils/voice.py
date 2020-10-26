@@ -44,7 +44,7 @@ class voice:
         """
         指定したチャンネルがボイスチャンネルを生成するチャンネルか確認します。
         """
-        generate_channel_id = 770140366031552522
+        generate_channel_id = 770155072461733913
         if channel.id == generate_channel_id:
             return True
         else:
