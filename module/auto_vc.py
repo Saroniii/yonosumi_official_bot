@@ -108,7 +108,7 @@ class Cog(commands.Cog):
             except:
                 return
             try:
-                num = int(message.content)
+                num = int(msg.content)
             except:
                 return await question.edit(content=f"{payload.member.mention}->不正な値が渡されました！")
             if not num > 100:
