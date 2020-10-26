@@ -1,13 +1,21 @@
 import discord
 from discord.ext import commands
 import yonosumi_utils
+
 class voice:
 
-    def is_active(self, channel :discord.VoiceChannel) -> bool:
+    def is_active(self, channel :discord.VoiceChannel, count_bots =True) -> bool:
         """
         通話に人がいるかどうかを確認します。
         """
-        if len(channel.members) > 0:
+        
+        if count_bots == True:
+            member_count :int = len(channel.members)
+        
+        else:
+            member_count :int = len([i for i in channel.members if i.bot == False])
+
+        if channel == None or len(member_count) > 0:
             return True
         
         else:
@@ -31,3 +39,5 @@ class voice:
             return True
         else:
             return False
+
+    
