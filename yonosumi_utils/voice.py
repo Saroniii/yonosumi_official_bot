@@ -78,6 +78,7 @@ class voice:
                 if not self.is_active(channel) and self.is_auto_voice_channel(channel):
                     id_list.append(str(channel.id))
                     await channel.delete(reason="誰もいないため")
+        print(len(id_list))
         return id_list
     
     async def clean_null_auto_text_channels(self, category: discord.CategoryChannel, channels: Callable[[discord.CategoryChannel], list]):
