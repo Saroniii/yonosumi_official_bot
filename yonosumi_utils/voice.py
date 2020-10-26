@@ -96,14 +96,14 @@ class voice:
                 if topic[1] in channels:
                     await channel.delete(reason="誰もいないため")
 
-    async def get_auto_voice_owner(self, channel: discord.TextChannel, bot: commands.Bot) -> Union[discord.Member, None]:
+    async def get_auto_voice_owner(self, channel: discord.TextChannel) -> Union[discord.Member, None]:
         """
         自動生成されたチャンネルのオーナーのメンバーオブジェクトを返します。
         取得できなかった場合はNoneが返ります。
         """
-        topic = yonosumi_utils.get_topic(channel, splited=True)[1]
+        id = yonosumi_utils.get_topic(channel, splited=True)[1]
         try:
-            return await channel.guild.fetch_member(int(topic))
+            return await channel.guild.fetch_member(int(id))
         except:
             return None
 
