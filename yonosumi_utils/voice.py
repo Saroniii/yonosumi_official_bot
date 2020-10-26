@@ -32,13 +32,16 @@ class voice:
         else:
             return False
     
-    def is_voice_control_panel(self, message: discord.Message, bot: commands.Bot) -> bool:
+    def is_voice_control_panel(self, message: discord.Message) -> bool:
         """
         指定したメッセージが自動生成されたボイスチャンネルのコントロールパネルか確認します。
         """
-        if self.is_muted_textchannel(message.channel) and message.author == bot.user:
-            return True
-        else:
+        try:
+            if message.embeds[0].description == self.control_panel_description():
+                return True
+            else:
+                return False
+        except:
             return False
 
     def is_generate_voice_channel(self, channel: discord.VoiceChannel) -> bool:
@@ -91,7 +94,7 @@ class voice:
                 if topic[1] in channels:
                     await channel.delete(reason="誰もいないため")
 
-    def control_panel_description():
+    def control_panel_description() -> str:
         return "ここでは、該当するリアクションを押すことで様々な設定を行うことが出来ます。\n\n✏：チャンネル名の変更\n\n🔒：利用可能人数の制限\n\n⚠：NSFWの有無"
 
         
