@@ -41,6 +41,9 @@ class voice:
             return False
 
     def is_generate_voice_channel(self, channel :discord.VoiceChannel):
+        """
+        指定したチャンネルがボイスチャンネルを生成するチャンネルか確認します。
+        """
         generate_channel_id = 770140366031552522
         if channel.id == generate_channel_id:
             return True
@@ -48,8 +51,13 @@ class voice:
             return False
 
     def is_auto_voice_channel(self, channel :discord.VoiceChannel):
+        """
+        指定されたチャンネルが生成されたボイスチャンネルか確認します。
+        """
         voice_category_id = 770140316078309416
         if voice_category_id == channel.id and not self.is_generate_voice_channel(channel):
             return True
         else:
             return False 
+
+    
