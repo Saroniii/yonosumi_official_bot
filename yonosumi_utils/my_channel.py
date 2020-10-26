@@ -24,6 +24,7 @@ def is_nedoko(channel :discord.TextChannel) -> bool:
 def get_topic(channel :discord.TextChannel, splited :bool =False) -> Union[str, list]:
     """
     トピック情報を取得します。
+    引数splitedをTrueにすると、splitlinesが適用されたトピックデータを返します。
     """
     topic :str = channel.topic
     if splited == False:
