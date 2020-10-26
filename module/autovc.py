@@ -13,7 +13,7 @@ class Cog(commands.Cog):
         category_id = 770140316078309416
         category: discord.CategoryChannel = self.bot.get_channel(category_id)
 
-        if member.voice.channel is None:
+        if member.voice is None:
             await self.voice.clean_null_auto_text_channels(
                 category,
                 await self.voice.clean_null_auto_voice_channels(category)
