@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
-import yonosumi_utils
+from yonosumi_utils import my_channel
+from typing import Union, Callable, List
 
 class voice:
 
@@ -21,11 +22,11 @@ class voice:
         else:
             return False
     
-    def is_muted_textchannel(self, channel: discord.TextChannel) -> bool:
+    def is_muted_text_channel(self, channel: discord.TextChannel) -> bool:
         """
         指定したチャンネルが聞き専チャンネルかどうか確認します。
         """
-        topic_split: list = yonosumi_utils.get_topic(channel, splited=True)
+        topic_split: list = my_channel.get_topic(channel, splited=True)
         if topic_split[0] == "これは自動生成されたテキストチャンネルです。":
             return True
         else:
@@ -65,3 +66,30 @@ class voice:
         自動生成されたチャンネルのトピックを生成します。
         """ 
         return f"これは自動生成されたテキストチャンネルです。\n{voice.id}\n{member.id}"
+
+    async def clean_null_auto_voice_channels(self, category: discord.CategoryChannel) ->List[str]:
+        """
+        誰もいない自動生成されたボイスチャンネルを検知し、削除します。
+        """
+        id_list = []
+        channel :discord.VoiceChannel
+        for channel in category:
+            if type(channel) == discord.VoiceChannel:
+                if not self.is_active(channel) and self.is_auto_voice_channel(channel):
+                    id_list.append(str(channel.id))
+                    await channel.delete(reason="誰もいないため")
+        return id_list
+    
+    async def clean_null_auto_text_channels(self, category: discord.CategoryChannel, channels: Callable[[discord.CategoryChannel], list]):
+        """
+        使われていない自動生成されたテキストチャンネルを検知し、削除します。
+        ※第二引数でclean_null_auto_voice_channelsを呼び出す想定で実装しています。
+        """
+        for channel in category:
+            if type(channel) == discord.TextChannel:
+                topic = my_channel.get_topic(channel, splited=True)
+                if topic[1] in channels:
+                    await channel.delete(reason="誰もいないため")
+
+        
+
