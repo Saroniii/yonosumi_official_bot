@@ -18,7 +18,7 @@ class Cog(commands.Cog):
                 )
             textchannel: discord.TextChannel = await author_channel.category.create_text_channel(
                 name=f"{member.name}の溜まり場",
-                topic=voice.generate_auto_voice_topic(
+                topic=self.voice.generate_auto_voice_topic(
                     voice=voicechannel,
                     member=member
                     )
