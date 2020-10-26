@@ -107,6 +107,7 @@ class voice:
         except:
             return None
 
+    @staticmethod
     def control_panel_description() -> str:
         """
         コントロールパネルのdescriptionを呼び出すショートカット関数です。
