@@ -15,7 +15,7 @@ class voice:
         else:
             member_count: int = len([i for i in channel.members if i.bot == False])
 
-        if channel == None or len(member_count) > 0:
+        if channel == None or member_count > 0:
             return True
         
         else:
