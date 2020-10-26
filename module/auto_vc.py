@@ -44,7 +44,7 @@ class Cog(commands.Cog):
             await member.move_to(voicechannel, reason = "VCの自動生成が完了したため")
             control_embed = discord.Embed(
                 title = f"{member.name}の溜まり場へようこそ！",
-                description = self.voice.control_embed_description()
+                description = self.voice.control_panel_description()
             )
             
             msg: discord.Message = await textchannel.send(embed=control_embed)
