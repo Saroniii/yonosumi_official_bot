@@ -23,6 +23,7 @@ class Cog(commands.Cog):
                     member=member
                     )
                 )
+            await member.move_to(voicechannel, reason = "VCの自動生成が完了したため")
             base_embed = discord.Embed(
                 title = f"{member.name}の溜まり場へようこそ！",
                 description = f"ここでは、該当するリアクションを押すことで様々な設定を行うことが出来ます。\n\n✎：チャンネル名の変更\n\n🔒：利用可能人数の制限\n\n⚠：NSFWの有無"
