@@ -56,7 +56,7 @@ class voice:
         指定されたチャンネルが生成されたボイスチャンネルか確認します。
         """
         voice_category_id = 770140316078309416
-        if voice_category_id == channel.id and not self.is_generate_voice_channel(channel):
+        if voice_category_id == channel.category.id and not self.is_generate_voice_channel(channel):
             return True
         else:
             return False
@@ -78,7 +78,6 @@ class voice:
                 if not self.is_active(channel) and self.is_auto_voice_channel(channel):
                     id_list.append(str(channel.id))
                     await channel.delete(reason="誰もいないため")
-        print(len(id_list))
         return id_list
     
     async def clean_null_auto_text_channels(self, category: discord.CategoryChannel, channels: Callable[[discord.CategoryChannel], list]):
