@@ -28,7 +28,7 @@ class voice:
         """
         指定したチャンネルが聞き専チャンネルかどうか確認します。
         """
-        topic_split: list = my_channel.get_topic(channel, splited=True)
+        topic_split: list = my_channel.get_topic(channel, split=True)
         if topic_split[0] == "これは自動生成されたテキストチャンネルです。":
             return True
         else:
@@ -92,7 +92,7 @@ class voice:
         """
         for channel in category.channels:
             if type(channel) == discord.TextChannel:
-                topic = my_channel.get_topic(channel, splited=True)
+                topic = my_channel.get_topic(channel, split=True)
                 if topic[1] in channels:
                     await channel.delete(reason="誰もいないため")
 
@@ -101,7 +101,7 @@ class voice:
         自動生成されたチャンネルのオーナーのメンバーオブジェクトを返します。
         取得できなかった場合はNoneが返ります。
         """
-        id = yonosumi_utils.get_topic(channel, splited=True)[2]
+        id = yonosumi_utils.get_topic(channel, split=True)[2]
         try:
             return await channel.guild.fetch_member(int(id))
         except:
