@@ -73,7 +73,7 @@ class voice:
         """
         id_list = []
         channel :discord.VoiceChannel
-        for channel in category:
+        for channel in category.channels:
             if type(channel) == discord.VoiceChannel:
                 if not self.is_active(channel) and self.is_auto_voice_channel(channel):
                     id_list.append(str(channel.id))
@@ -85,7 +85,7 @@ class voice:
         使われていない自動生成されたテキストチャンネルを検知し、削除します。
         ※第二引数でclean_null_auto_voice_channelsを呼び出す想定で実装しています。
         """
-        for channel in category:
+        for channel in category.channels:
             if type(channel) == discord.TextChannel:
                 topic = my_channel.get_topic(channel, splited=True)
                 if topic[1] in channels:
