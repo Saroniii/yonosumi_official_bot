@@ -90,7 +90,7 @@ class Cog(commands.Cog):
                 return
             if len(msg.content) > 0:
                 await channel.edit(name=msg.content)
-                vc = self.bot.get_channel(yonosumi_utils.get_topic(channel, splited=True)[1])
+                vc = self.bot.get_channel(int(yonosumi_utils.get_topic(channel, splited=True)[1]))
                 await vc.edit(name=msg.content)
                 await channel.send(f"{payload.member.mention}->チャンネル名を``{msg.content}``に変更しました！")
 
@@ -112,7 +112,7 @@ class Cog(commands.Cog):
             except:
                 return await question.edit(content=f"{payload.member.mention}->不正な値が渡されました！")
             if not num > 100:
-                vc: discord.VoiceChannel = self.bot.get_channel(yonosumi_utils.get_topic(channel, splited=True)[1])
+                vc: discord.VoiceChannel = self.bot.get_channel(int(yonosumi_utils.get_topic(channel, splited=True)[1]))
                 await vc.edit(user_limit=num)
                 await channel.send(f"{payload.member.mention}->VCの参加可能人数を``{num}人``に変更しました！")
             else:
