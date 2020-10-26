@@ -26,12 +26,12 @@ class voice:
         指定したチャンネルが聞き専チャンネルかどうか確認します。
         """
         topic_split: list = yonosumi_utils.get_topic(channel, splited=True)
-        if topic_split[0] == "これは自動生成されたテキストチャンネルです":
+        if topic_split[0] == "これは自動生成されたテキストチャンネルです。":
             return True
         else:
             return False
     
-    def is_voice_control_panel(self, message: discord.Message, bot: commands.Bot):
+    def is_voice_control_panel(self, message: discord.Message, bot: commands.Bot) -> bool:
         """
         指定したメッセージが自動生成されたボイスチャンネルのコントロールパネルか確認します。
         """
@@ -40,7 +40,7 @@ class voice:
         else:
             return False
 
-    def is_generate_voice_channel(self, channel :discord.VoiceChannel):
+    def is_generate_voice_channel(self, channel: discord.VoiceChannel) -> bool:
         """
         指定したチャンネルがボイスチャンネルを生成するチャンネルか確認します。
         """
@@ -50,7 +50,7 @@ class voice:
         else:
             return False
 
-    def is_auto_voice_channel(self, channel :discord.VoiceChannel):
+    def is_auto_voice_channel(self, channel: discord.VoiceChannel) -> bool:
         """
         指定されたチャンネルが生成されたボイスチャンネルか確認します。
         """
@@ -58,6 +58,10 @@ class voice:
         if voice_category_id == channel.id and not self.is_generate_voice_channel(channel):
             return True
         else:
-            return False 
+            return False
 
-    
+    def generate_auto_voice_topic(self, voice: discord.VoiceChannel, member: discord.Member) -> str:
+        """
+        自動生成されたチャンネルのトピックを生成します。
+        """ 
+        return f"これは自動生成されたテキストチャンネルです。\n{voice.id}\n{member.id}"
