@@ -26,7 +26,7 @@ class YonosumiMsg:
     async def question(bot :commands.Bot, message :Union[commands.Context,discord.Message], title :str) -> Union[dict, bool]:
         def check(m):
             return m.author == message.author and m.channel == message.channel
-        question = await message.send(content = title)
+        question = await message.channel.send(content = title)
         try:
             msg = await bot.wait_for(
                 'message',
