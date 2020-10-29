@@ -23,19 +23,31 @@ class YonosumiMsg:
         return await ctx.send(f"{ctx.author.mention}->起動処理中です...再度お試しください...")
 
     @staticmethod
-    async def question(bot :commands.Bot, message :Union[commands.Context,discord.Message], title :str) -> Union[dict, bool]:
-        def check(m):
-            return m.author == message.author and m.channel == message.channel
-        question = await message.channel.send(content = title)
+    async def question(bot :commands.Bot, main_object :Union[commands.Context, discord.Message, discord.RawReactionActionEvent], title :str) -> Union[dict, bool]:
+        if type(main_object) in [discord.Message, commands.Context]:
+            member = main_object.author
+            def check(m):
+                return m.author == member and m.channel == main_object.channel
+            question = await main_object.channel.send(content = title)
+            
+        else:
+            member = main_object.member
+            channel = bot.get_channel(main_object.chsnnel_id)
+            def check(m):
+                return m.author == member and m.channel == channel
+            question = await channel.send(content = title)
+
         try:
             msg = await bot.wait_for(
                 'message',
                 check=check,
                 timeout=60.0
                 )
+
         except TimeoutError:
-            await question.edit(content=f"{message.author.mention}->入力待機時間内に応答がありませんでした！")
+            await question.edit(content=f"{member.mention}->入力待機時間内に応答がありませんでした！")
             return False
+        
         return {
             'result':msg,
             'question':question
