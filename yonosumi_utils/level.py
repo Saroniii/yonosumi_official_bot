@@ -38,7 +38,7 @@ class Level:
         await self.remove_old_roles(message.guild, member)
         await member.add_roles(role, reason="レベルが上がったため")
 
-    async def announnce_level_up(self, member: discord.Member, level: int, bot :commands.Bot) -> None:
+    async def announce_level_up(self, member: discord.Member, level: int, bot :commands.Bot) -> None:
         announce_template = f"さすが {member.mention} 、やるな！見直したぜ。おめぇはレベル {level} に上がったぞ。"
         announce_channel = bot.get_channel(self.level_notify_channel_id)
         await announce_channel.send(content = announce_template)
