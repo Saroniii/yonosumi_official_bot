@@ -1,7 +1,7 @@
 import discord
 from yonosumi_utils.embed import YonosumiEmbed
 
-class SaicaMsg:
+class YonosumiMsg:
     
     @staticmethod
     async def waiting(ctx):
