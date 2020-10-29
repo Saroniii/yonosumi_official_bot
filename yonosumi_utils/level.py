@@ -54,8 +54,8 @@ class Level:
         
         data = self.analysis_message(message)
         
-        if data[1] in self.level_list:
-            return self.level_roles[data[1]], data
+        if data['level'] in self.level_list:
+            return self.level_roles[data['level']], data
         
         return False, data
 
