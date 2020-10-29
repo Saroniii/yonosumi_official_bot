@@ -75,8 +75,8 @@ class Level:
         
         data = message.content.splitlines()
         return {
-            'user_id':data[0],
-            'level':data[1],
+            'user_id':int(data[0]),
+            'level':int(data[1]),
         }
 
     def is_level_up_message(self, message :discord.Message):
