@@ -23,16 +23,16 @@ class Level:
         """
         レベル役職を付与します。
         """
-        if check is False:
-            return
-
         data = check[1]
         member = await message.guild.fetch_member(data['user_id'])
+        await self.announce_level_up(member, data['level'], bot)
+
+        if check[0] is False:
+            return
 
         role = message.guild.get_role(check[0])
         await self.remove_old_roles(message.guild, member)
         await member.add_roles(role, reason="レベルが上がったため")
-        await self.announce_level_up(member, data['level'], bot)
 
     async def announnce_level_up(self, member: discord.Member, level: int, bot :commands.Bot) -> None:
         announce_template = f"さすが {member.mention} 、やるな！見直したぜ。おめぇはレベル {level} に上がったぞ。"
@@ -41,12 +41,15 @@ class Level:
 
     async def remove_old_roles(self, guild :discord.Guild, member :discord.Member) -> None:
         for role in self.level_roles.values():
-            await member.remove_roles(guild.get_role(role),reason="レベル役職の付替えのため")
+            await member.remove_roles(
+                guild.get_role(role),
+                reason="レベル役職の付替えのため"
+                )
     
     def check_meet_level_requirement(self, message :discord.Message) -> Union[int, tuple]:
         """
         レベル役職を付与する条件を満たしているか確認します。
-        ※満たしている場合は満たしている役職のIDを、満たしていない場合はFalseを返します。
+        ※満たしている場合は満たしている役職のIDを、満たしていない場合はFalseを返し、第2引数には必ずanalysis_message関数の戻り値が返ります。
         """
         
         data = self.analysis_message(message)
@@ -54,7 +57,7 @@ class Level:
         if data[1] in self.level_list:
             return self.level_roles[data[1]], data
         
-        return False
+        return False, data
 
     def analysis_message(self, message :discord.Message) -> dict:
         """
