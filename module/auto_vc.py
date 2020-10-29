@@ -1,19 +1,18 @@
 import re
 import discord
 from discord.ext import commands
-from yonosumi_utils import voice, my_channel, YonosumiMsg as msg
+from yonosumi_utils import voice
 from asyncio import TimeoutError
 
+import yonosumi_utils
 
 reaction_list = ["✏", "🔒"]
 
 class Cog(commands.Cog):
 
     def __init__(self, bot):
-        self.bot = bot
+        self.bot=bot
         self.voice = voice()
-        self.my_channel = my_channel()
-        self.msg = msg()
 
     @commands.Cog.listener()
     async def on_voice_state_update(self, member :discord.Member, before :discord.VoiceState, after :discord.VoiceState):
@@ -80,43 +79,49 @@ class Cog(commands.Cog):
 
         if str(payload.emoji) == "✏":
             
-            msg = await self.msg.question(
-                bot=self.bot,
-                message=message,
-                title=f"{payload.member.mention}->変更したいチャンネル名を入力してください。"
-            )
-
-            if msg[0] == False:
-                await msg[1].edit(content=f"{payload.member.mention}->不正な値が渡されました！")
+            question = await channel.send(f"{payload.member.mention}->変更したい名前を入力してください。")
+            
+            def check(m):
+                return m.channel == channel and m.author == payload.member
+            
+            try:
+                msg = await self.bot.wait_for('message', check=check, timeout=60.0)
+            except TimeoutError:
+                return await question.edit(content=f"{payload.member.mention}->規定時間内に応答がなかったので入力待機を解除しました！")
+            except:
+                return
             
             if len(msg.content) > 0:
                 await channel.edit(name=msg.content)
-                vc = self.bot.get_channel(int(my_channel.get_topic(channel, split=True)[1]))
+                vc = self.bot.get_channel(int(yonosumi_utils.get_topic(channel, split=True)[1]))
                 await vc.edit(name=msg.content)
                 await channel.send(f"{payload.member.mention}->チャンネル名を``{msg.content}``に変更しました！")
 
         elif str(payload.emoji) == "🔒":
             
-            msg = await self.msg.question(
-                bot=self.bot,
-                message=message,
-                title=f"{payload.member.mention}->変更したいチャンネル名を入力してください。"
-            )
+            question = await channel.send(f"{payload.member.mention}->このVCに入れる人数を指定してください。")
+            
+            def check(m):
+                return m.channel == channel and m.author == payload.member
 
-            if msg[0] == False:
-                await msg[1].edit(content=f"{payload.member.mention}->不正な値が渡されました！")
+            try:
+                msg = await self.bot.wait_for('message', check=check, timeout=60.0)
+            except TimeoutError:
+                return await question.edit(content=f"{payload.member.mention}->規定時間内に応答がなかったので入力待機を解除しました！")
+            except:
+                return
             
             try:
-                num = int(msg[0].content)
+                num = int(msg.content)
             except:
-                return await msg[1].edit(content=f"{payload.member.mention}->不正な値が渡されました！")
+                return await question.edit(content=f"{payload.member.mention}->不正な値が渡されました！")
 
             if not num > 100:
-                vc: discord.VoiceChannel = self.bot.get_channel(int(my_channel.get_topic(channel, split=True)[1]))
+                vc: discord.VoiceChannel = self.bot.get_channel(int(yonosumi_utils.get_topic(channel, split=True)[1]))
                 await vc.edit(user_limit=num)
                 await channel.send(f"{payload.member.mention}->VCの参加可能人数を``{num}人``に変更しました！")
             else:
-                return await msg[1].edit(content=f"{payload.member.mention}->100人以上は指定できません！")
+                return await question.edit(content=f"{payload.member.mention}->100人以上は指定できません！")
         
 
 def setup(bot):
