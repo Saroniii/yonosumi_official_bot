@@ -92,7 +92,7 @@ class Cog(commands.Cog):
             result = msg['result']
             question = msg['question']
 
-            if len(msg.content) > 0:
+            if len(result.content) > 0:
                 await channel.edit(name=result.content)
                 vc = self.bot.get_channel(int(yonosumi_utils.get_topic(channel, split=True)[1]))
                 await vc.edit(name=result.content)
