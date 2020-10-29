@@ -82,7 +82,7 @@ class Cog(commands.Cog):
             
             msg = await self.msg.question(
                 bot=self.bot,
-                message=message,
+                main_object=message,
                 title=f"{payload.member.mention}->変更したい名前を入力してください。"
             )
 
