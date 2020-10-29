@@ -32,7 +32,7 @@ class YonosumiMsg:
             
         else:
             member = main_object.member
-            channel = bot.get_channel(main_object.chsnnel_id)
+            channel = bot.get_channel(main_object.channel_id)
             def check(m):
                 return m.author == member and m.channel == channel
             question = await channel.send(content = title)
