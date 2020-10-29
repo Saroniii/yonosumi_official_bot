@@ -23,6 +23,10 @@ class Level:
         """
         レベル役職を付与します。
         """
+
+        if check == "NO DATA":
+            return
+
         data = check[1]
         member = await message.guild.fetch_member(data['user_id'])
         await self.announce_level_up(member, data['level'], bot)
@@ -53,18 +57,21 @@ class Level:
         """
         
         data = self.analysis_message(message)
+
+        if data == False:
+            return 'NO DATA'
         
         if data['level'] in self.level_list:
             return self.level_roles[data['level']], data
         
         return False, data
 
-    def analysis_message(self, message :discord.Message) -> dict:
+    def analysis_message(self, message :discord.Message) -> Union[dict, bool]:
         """
         MEE6のメッセージを解析します。
         """
         if not self.is_level_up_message(message):
-            return
+            return False
         
         data = message.content.splitlines()
         return {
