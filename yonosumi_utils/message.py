@@ -1,8 +1,8 @@
 import discord
-from discord.ext import commands
 from yonosumi_utils.embed import YonosumiEmbed
 from asyncio import TimeoutError
 from typing import Union
+from discord.ext import commands
 
 class YonosumiMsg:
     
@@ -44,3 +44,4 @@ class YonosumiMsg:
             await question.edit(content=f"{message.author.mention}->入力待機時間内に応答がありませんでした！")
             return False
         return msg, question
+        return await ctx.send(f"{ctx.author.mention}->起動処理中です...再度お試しください...")
