@@ -1,5 +1,6 @@
 import discord
-from discord.ext import commands,tasks
+from discord.ext import commands, tasks
+
 status_flag = False
 
 class Cog(commands.Cog):
@@ -38,18 +39,6 @@ class Cog(commands.Cog):
             await ctx.send(f"{ctx.author.mention}->ステータスを更新しました！")
         else:
             await ctx.send(f"{ctx.author.mention}->権限がありません！")
-
-    @tasks.loop(minutes=1)
-    async def changestatus(self):
-        global status_flag
-        if status_flag == False:
-            await self.bot.wait_until_ready()
-            membercount = len(self.bot.users)
-            game = discord.Game(f"世の隅の{membercount}人と一緒にいるよ！")
-            await self.bot.change_presence(status=discord.Status.online,activity=game)
-        else:
-            pass
-
 
 def setup(bot):
     bot.add_cog(Cog(bot))
