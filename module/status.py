@@ -6,7 +6,6 @@ status_flag = False
 class Cog(commands.Cog):
     def __init__(self, bot):
         self.bot=bot
-        self.changestatus.start()
 
 
     @commands.command()
