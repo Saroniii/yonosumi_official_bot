@@ -110,7 +110,7 @@ class Cog(commands.Cog):
                 bot=self.bot,
                 main_object=message,
                 member=payload.member,
-                title=f"{payload.member.mention}->変更したい名前を入力してください。"
+                title=f"{payload.member.mention}->VCに入れる最大人数を指定してください。"
             )
 
             if msg == False:
