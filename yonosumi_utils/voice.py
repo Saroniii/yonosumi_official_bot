@@ -93,7 +93,9 @@ class voice:
         for channel in category.channels:
             if type(channel) == discord.TextChannel:
                 topic = my_channel.get_topic(channel, split=True)
-                if topic[1] in channels:
+                if topic is None:
+                    continue
+                elif topic[1] in channels:
                     await channel.delete(reason="誰もいないため")
 
     async def get_auto_voice_owner(self, channel: discord.TextChannel) -> Union[discord.Member, None]:
