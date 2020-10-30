@@ -53,6 +53,8 @@ class Cog(commands.Cog):
 
             for emoji in reaction_list:
                 await msg.add_reaction(emoji)
+            
+            await msg.pin()
 
     @commands.Cog.listener()
     async def on_raw_reaction_add(self, payload :discord.RawReactionActionEvent):
