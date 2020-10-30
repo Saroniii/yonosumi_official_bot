@@ -1,9 +1,12 @@
-import discord
-from discord.ext import commands
-from yonosumi_utils.embed import YonosumiEmbed
 from typing import Union
 
-def check_owner(member :discord.Member, channel :discord.TextChannel) -> bool:
+import discord
+from discord.ext import commands
+
+from yonosumi_utils.embed import YonosumiEmbed
+
+
+def check_owner(member: discord.Member, channel: discord.TextChannel) -> bool:
     """
     選択したメンバーが個人チャンネルの所有者か確認できます。
     """
@@ -12,7 +15,8 @@ def check_owner(member :discord.Member, channel :discord.TextChannel) -> bool:
     else:
         return False
 
-def is_nedoko(channel :discord.TextChannel) -> bool:
+
+def is_nedoko(channel: discord.TextChannel) -> bool:
     """
     指定したチャンネルが寝床であるか確認します。
     """
@@ -21,17 +25,18 @@ def is_nedoko(channel :discord.TextChannel) -> bool:
     else:
         return False
 
-def get_topic(channel :discord.TextChannel, split :bool =False) -> Union[str, list, None]:
+
+def get_topic(channel: discord.TextChannel, split: bool = False) -> Union[str, list, None]:
     """
     トピック情報を取得します。
     引数splitedをTrueにすると、splitlinesが適用されたトピックデータを返します。
     """
-    topic :str = channel.topic
+    topic: str = channel.topic
     if split == False:
         return topic
-    
+
     else:
         try:
             return topic.splitlines()
         except AttributeError:
-            return None 
+            return None

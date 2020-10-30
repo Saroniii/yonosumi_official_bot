@@ -1,14 +1,16 @@
-import discord
-from discord.ext import commands
-from contextlib import redirect_stdout
 import io
 import textwrap
 import traceback
+from contextlib import redirect_stdout
+
+import discord
+from discord.ext import commands
 from yonosumi_utils.permissions import YonosumiStaff as staff
+
 
 class Eval(commands.Cog):
     def __init__(self, bot):
-        self.bot=bot
+        self.bot = bot
 
     def cleanup_code(self, content):
         """Automatically removes code blocks from the code."""
@@ -19,7 +21,7 @@ class Eval(commands.Cog):
         # remove `foo`
         return content.strip('` \n')
 
-    @commands.command(name="eval",aliases=["do","dev"])
+    @commands.command(name="eval", aliases=["do", "dev"])
     async def _eval(self, ctx, *, code):
         # https://github.com/Rapptz/RoboDanny/blob/rewrite/cogs/admin.py#L216-L261
         if staff.is_admin(self.bot, ctx):
@@ -34,7 +36,6 @@ class Eval(commands.Cog):
 
             env.update(globals())
 
-            
             if ctx.message.attachments:
                 body = (await ctx.message.attachments[0].read()).decode('utf-8')
             else:

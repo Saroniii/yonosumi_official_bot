@@ -5,25 +5,27 @@ from typing import Union, Callable, List
 
 import yonosumi_utils
 
+
 class voice:
 
-    def is_active(self, channel: discord.VoiceChannel, count_bots =True) -> bool:
+    def is_active(self, channel: discord.VoiceChannel, count_bots=True) -> bool:
         """
         通話に人がいるかどうかを確認します。
         """
-        
+
         if count_bots == True:
             member_count: int = len(channel.members)
-        
+
         else:
-            member_count: int = len([i for i in channel.members if i.bot == False])
+            member_count: int = len(
+                [i for i in channel.members if i.bot == False])
 
         if channel == None or member_count > 0:
             return True
-        
+
         else:
             return False
-    
+
     def is_muted_text_channel(self, channel: discord.TextChannel) -> bool:
         """
         指定したチャンネルが聞き専チャンネルかどうか確認します。
@@ -33,7 +35,7 @@ class voice:
             return True
         else:
             return False
-    
+
     def is_voice_control_panel(self, message: discord.Message) -> bool:
         """
         指定したメッセージが自動生成されたボイスチャンネルのコントロールパネルか確認します。
@@ -69,7 +71,7 @@ class voice:
     def generate_auto_voice_topic(self, voice: discord.VoiceChannel, member: discord.Member) -> str:
         """
         自動生成されたチャンネルのトピックを生成します。
-        """ 
+        """
         return f"これは自動生成されたテキストチャンネルです。\n{voice.id}\n{member.id}"
 
     async def clean_null_auto_voice_channels(self, category: discord.CategoryChannel) -> List[str]:
@@ -77,14 +79,14 @@ class voice:
         誰もいない自動生成されたボイスチャンネルを検知し、削除します。
         """
         id_list = []
-        channel :discord.VoiceChannel
+        channel: discord.VoiceChannel
         for channel in category.channels:
             if type(channel) == discord.VoiceChannel:
                 if not self.is_active(channel) and self.is_auto_voice_channel(channel):
                     id_list.append(str(channel.id))
                     await channel.delete(reason="誰もいないため")
         return id_list
-    
+
     async def clean_null_auto_text_channels(self, category: discord.CategoryChannel, channels: Callable[[discord.CategoryChannel], list]):
         """
         使われていない自動生成されたテキストチャンネルを検知し、削除します。
@@ -115,6 +117,3 @@ class voice:
         コントロールパネルのdescriptionを呼び出すショートカット関数です。
         """
         return "ここでは、該当するリアクションを押すことで様々な設定を行うことが出来ます。\n\n✏：チャンネル名の変更\n\n🔒：利用可能人数の制限"
-
-        
-

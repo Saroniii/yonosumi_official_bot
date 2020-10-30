@@ -1,12 +1,13 @@
 import discord
 from discord.ext import commands, tasks
 
+
 class Cog(commands.Cog):
     def __init__(self, bot):
-        self.bot=bot
+        self.bot = bot
 
     @commands.command()
-    async def genbotinvite(self, ctx, user :discord.User):
+    async def genbotinvite(self, ctx, user: discord.User):
         bot = False
         if user.bot:
             bot = True

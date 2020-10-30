@@ -5,9 +5,8 @@ from yonosumi_utils import Level
 
 class Cog(commands.Cog):
     def __init__(self, bot):
-        self.bot=bot
+        self.bot = bot
         self.level = Level()
-
 
     @commands.Cog.listener()
     async def on_message(self, message: discord.Message):
