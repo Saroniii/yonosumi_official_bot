@@ -6,14 +6,15 @@ import os
 TOKEN = os.environ['TOKEN']
 
 class MyBot(commands.Bot):
+
     def __init__(self, *args, **kwargs):
         self.loaded = False
         self.ready_check = False
-        self.notema = None
-        self.waf = None
+        self.yonosumi_id = 569928145906565126
         super().__init__(*args, **kwargs)
 
     async def on_ready(self):
+
         print('Logged in as')
         print(self.user.name)
         print(self.user.id)
@@ -22,8 +23,10 @@ class MyBot(commands.Bot):
         print(f"合計ユーザー数：{len({a.id for a in self.users if not a.bot})}")
         print(f"合計ボット数：{len({a.id for a in self.users if a.bot})}")
         print('------')
+
         reloaded = discord.Game("起動中です・・・")
         await bot.change_presence(status=discord.Status.idle, activity=reloaded)
+
         print(f'import')
         if not self.loaded:
             import pathlib
@@ -38,8 +41,10 @@ class MyBot(commands.Bot):
             else:
                 self.loaded = True
         print('------')
-        membercount = len(bot.users)
-        game = discord.Game(f"世の隅の{membercount}人と一緒にいるよ！")
+
+        yonosumi: discord.Guild = bot.get_guild(self.yonosumi_id)
+        member_count = len(await yonosumi.fetch_members(limit=None))
+        game = discord.Game(f"世の隅の{member_count}人と一緒にいるよ！")
         await bot.change_presence(status=discord.Status.online,activity=game)
 
 intent :discord.Intents = discord.Intents.default()
