@@ -83,6 +83,7 @@ class Cog(commands.Cog):
             msg = await self.msg.question(
                 bot=self.bot,
                 main_object=message,
+                member=payload.member,
                 title=f"{payload.member.mention}->変更したい名前を入力してください。"
             )
 
@@ -93,8 +94,13 @@ class Cog(commands.Cog):
             question = msg['question']
 
             if len(result.content) > 0:
+                vc_id = int(yonosumi_utils.get_topic(channel, split=True)[1])
+                if vc_id is None:
+                    return await question.edit(content=f"{payload.member.mention}->不明なエラーが発生しました！")
+                
+                vc = self.bot.get_channel(vc_id)
+
                 await channel.edit(name=result.content)
-                vc = self.bot.get_channel(int(yonosumi_utils.get_topic(channel, split=True)[1]))
                 await vc.edit(name=result.content)
                 await channel.send(f"{payload.member.mention}->チャンネル名を``{result.content}``に変更しました！")
 
@@ -102,7 +108,8 @@ class Cog(commands.Cog):
             
             msg = await self.msg.question(
                 bot=self.bot,
-                message=message,
+                main_object=message,
+                member=payload.member,
                 title=f"{payload.member.mention}->変更したい名前を入力してください。"
             )
 
@@ -118,7 +125,10 @@ class Cog(commands.Cog):
                 return await question.edit(content=f"{payload.member.mention}->不正な値が渡されました！")
 
             if not num > 100:
-                vc: discord.VoiceChannel = self.bot.get_channel(int(yonosumi_utils.get_topic(channel, split=True)[1]))
+                vc_id = int(yonosumi_utils.get_topic(channel, split=True)[1])
+                if vc_id is None:
+                    return await question.edit(content=f"{payload.member.mention}->不明なエラーが発生しました！")
+                vc = self.bot.get_channel(vc_id)
                 await vc.edit(user_limit=num)
                 await channel.send(f"{payload.member.mention}->VCの参加可能人数を``{num}人``に変更しました！")
             else:
