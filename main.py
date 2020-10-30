@@ -43,7 +43,7 @@ class MyBot(commands.Bot):
         print('------')
 
         yonosumi: discord.Guild = bot.get_guild(self.yonosumi_id)
-        member_count = len(await yonosumi.fetch_members(limit=None))
+        member_count = len(await yonosumi.fetch_members(limit=None).flatten())
         game = discord.Game(f"世の隅の{member_count}人と一緒にいるよ！")
         await bot.change_presence(status=discord.Status.online,activity=game)
 
