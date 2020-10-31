@@ -71,7 +71,7 @@ class Cog(commands.Cog):
 
         message :discord.Message = await channel.fetch_message(payload.message_id)
 
-        if not self.voice.is_voice_control_panel(message):
+        if not self.voice.is_voice_control_panel(message, self.bot):
             return
         
         global reaction_list

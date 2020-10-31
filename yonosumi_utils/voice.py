@@ -36,17 +36,18 @@ class voice:
         else:
             return False
 
-    def is_voice_control_panel(self, message: discord.Message) -> bool:
+    def is_voice_control_panel(self, message: discord.Message, bot :commands.Bot) -> bool:
         """
         指定したメッセージが自動生成されたボイスチャンネルのコントロールパネルか確認します。
         """
         try:
-            if message.embeds[0].description == self.control_panel_description():
+            if message.embeds[0].description == self.control_panel_description() and message.author == bot.user:
                 return True
             else:
                 return False
         except:
             return False
+
 
     def is_generate_voice_channel(self, channel: discord.VoiceChannel) -> bool:
         """
