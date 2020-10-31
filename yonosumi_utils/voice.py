@@ -112,6 +112,15 @@ class voice:
         except:
             return None
 
+    def is_hide(self, channel :discord.VoiceChannel) -> bool:
+        guild :discord.Guild = channel.guild
+        everyone_perms = dict(channel.overwrites_for(guild.default_role))
+        
+        if everyone_perms['view_channel'] == True:
+            return False
+        
+        return True
+
     @staticmethod
     def control_panel_description() -> str:
         """

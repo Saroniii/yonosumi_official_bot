@@ -1,5 +1,6 @@
 import re
 from asyncio import TimeoutError
+from yonosumi_utils import my_channel
 
 import discord
 import yonosumi_utils
@@ -7,7 +8,7 @@ from discord.ext import commands
 from yonosumi_utils import YonosumiMsg as msg
 from yonosumi_utils import voice
 
-reaction_list = ["✏", "🔒"]
+reaction_list = ["✏", "🔒","👀"]
 
 class Cog(commands.Cog):
 
@@ -64,6 +65,7 @@ class Cog(commands.Cog):
             return 
 
         channel :discord.TextChannel = self.bot.get_channel(payload.channel_id)
+        guild :discord.Guild = self.bot.get_guild(payload.guild_id)
         voice_category_id = 770140316078309416
 
         if not self.voice.is_muted_text_channel(channel) or payload.member != await self.voice.get_auto_voice_owner(channel):
@@ -137,6 +139,60 @@ class Cog(commands.Cog):
             else:
                 return await question.edit(content=f"{payload.member.mention}->100人以上は指定できません！")
         
+        elif str(payload.emoji) == "👀":
+
+            if not self.voice.is_hide(payload.member.voice.channel):
+
+                result = "非公開"
+                
+                vc :discord.VoiceChannel = self.bot.get_channel(my_channel.get_topic(channel, split=True)[1])
+
+                for member in payload.member.voice.members:
+                    
+                    await channel.set_permissions(
+                        target=member,
+                        view_channel=True,
+                    )
+                    
+                    await vc.set_permissions(
+                        target=member,
+                        view_channel=True,
+                        connect=True
+                    )
+                
+                await vc.set_permissions(
+                    guild.default_role,
+                    view_channel=False,
+                    connect=False
+                    )
+
+                await channel.set_permissions(
+                    guild.default_role,
+                    view_channel=False
+                )
+
+            else:
+
+                result = "公開"
+
+                vc :discord.VoiceChannel = self.bot.get_channel(my_channel.get_topic(channel, split=True)[1])
+                
+                await vc.set_permissions(
+                    guild.default_role,
+                    view_channel=True,
+                    connect=True
+                    )
+
+                await channel.set_permissions(
+                    guild.default_role,
+                    view_channel=True
+                )
+            
+            await channel.send(
+                content=f"{payload.member.mention}->このVCを``{result}``にしました！"
+            )
+                                
+
 
 def setup(bot):
     bot.add_cog(Cog(bot))
