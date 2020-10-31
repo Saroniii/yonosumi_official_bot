@@ -179,13 +179,13 @@ class Cog(commands.Cog):
                 
                 await vc.set_permissions(
                     guild.default_role,
-                    view_channel=True,
+                    read_messages=True,
                     connect=True
                     )
 
                 await channel.set_permissions(
                     guild.default_role,
-                    view_channel=True
+                    read_messages=True
                 )
             
             await channel.send(
