@@ -5,7 +5,7 @@ async-timeout==3.0.1
 asyncio==3.4.3
 discord.py==1.5.1
 numpy==1.15.0
-requests==2.22.0
+requests==2.24.0
 typed-ast==1.4.0
 WMI==1.5.1
 wrapt==1.12.1
