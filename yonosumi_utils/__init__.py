@@ -4,3 +4,4 @@ from yonosumi_utils.my_channel import *
 from yonosumi_utils.permissions import *
 from yonosumi_utils.voice import *
 from yonosumi_utils.level import *
+from yonosumi_utils.anonymous import *
