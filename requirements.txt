@@ -7,7 +7,6 @@ discord.py==1.5.1
 numpy==1.19.4
 requests==2.24.0
 typed-ast==1.4.1
-WMI==1.5.1
 wrapt==1.12.1
 yarl==1.6.2
 dropbox==10.8.0
