@@ -31,13 +31,14 @@ class Cog(commands.Cog):
             reaction=reaction
         )
 
-        await self.tokumei.send_anonymous(
+        check = await self.tokumei.send_anonymous(
             channel_id=channel_id,
             bot=self.bot,
             message=message
         )
-
-        return await message.channel.send('メッセージを匿名で送信しました！')
+        if check is not None:
+            return await message.channel.send('メッセージを匿名で送信しました！')
+        await message.channel.send('操作を中断しました！')
 
 
 

@@ -51,6 +51,7 @@ class Anonymous:
 
         try:
             reaction_value = await bot.wait_for('add_reaction', check=check, timeout=60.0)
+            await message.remove_reaction(str(reaction_value), channel.recipient)
 
         except asyncio.TimeoutError:
             await message.edit(
