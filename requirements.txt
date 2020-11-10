@@ -4,11 +4,11 @@ aiosqlite3==0.3.0
 async-timeout==3.0.1
 asyncio==3.4.3
 discord.py==1.5.1
-numpy==1.15.0
-requests==2.22.0
-typed-ast==1.4.0
-WMI==1.4.9
-wrapt==1.11.2
+numpy==1.19.4
+requests==2.24.0
+typed-ast==1.4.1
+WMI==1.5.1
+wrapt==1.12.1
 yarl==1.6.2
 dropbox==10.8.0
 gmail==0.6.3
