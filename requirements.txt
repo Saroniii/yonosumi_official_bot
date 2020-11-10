@@ -9,7 +9,7 @@ requests==2.24.0
 typed-ast==1.4.1
 wrapt==1.12.1
 yarl==1.6.2
-dropbox==10.8.0
+dropbox==10.9.0
 gmail==0.6.3
 googletrans==3.0.0
 
