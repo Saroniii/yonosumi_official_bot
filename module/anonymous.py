@@ -12,7 +12,7 @@ class Cog(commands.Cog):
     @commands.Cog.listener()
     async def on_message(self, message: discord.Message):
 
-        if not type(message.channel) == discord.DMChannel and not message.author.bot:
+        if not type(message.channel) == discord.DMChannel or message.author.bot:
             return
 
         dialog = await self.tokumei.setup_anonymous(
