@@ -50,6 +50,6 @@ class MyBot(commands.Bot):
 intent :discord.Intents = discord.Intents.default()
 intent.members = True
 intent.presences = True
-bot = MyBot(command_prefix=["y/","y1"])
+bot = MyBot(command_prefix=["y/","y1"], intents=intent)
 
 bot.run(TOKEN)
