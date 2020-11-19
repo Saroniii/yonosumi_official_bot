@@ -12,7 +12,7 @@ class Cog(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message: discord.Message):
-        await self.delete_message.add_trash_emoji(message)
+        await self.delete_message.add_trash_emoji(message, self.bot)
 
     @commands.Cog.listener()
     async def on_raw_reaction_add(self, payload: RawReactionActionEvent):
@@ -22,7 +22,7 @@ class Cog(commands.Cog):
 
         channel = self.bot.get_channel(payload.channel_id)
         message = await channel.fetch_message(payload.message_id)
-        await self.delete_message.delete_bot_message(message, str(payload.emoji))
+        await self.delete_message.delete_bot_message(message, str(payload.emoji), self.bot)
 
 
 def setup(bot):
