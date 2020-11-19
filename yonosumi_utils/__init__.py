@@ -5,3 +5,4 @@ from yonosumi_utils.permissions import *
 from yonosumi_utils.voice import *
 from yonosumi_utils.level import *
 from yonosumi_utils.anonymous import *
+from yonosumi_utils.delete_bot_msgs import *
