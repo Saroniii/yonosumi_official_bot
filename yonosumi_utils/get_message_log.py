@@ -10,7 +10,7 @@ class GetMessageLog:
         log = ""
         async for message in channel.history(limit=limit):
             
-            log += f"{message.author}({message.author.id}){message.content}\n"
+            log += f"{message.author}({message.author.id}):{message.content}\n"
 
             if message.attachments:
                 attachment_count = len(message.attachments)
