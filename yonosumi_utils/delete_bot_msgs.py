@@ -14,7 +14,7 @@ class DeleteMessage:
         """
         削除可能なBotのメッセージか判定します。
         """
-        if not message.author.id == 758126661509447701 or self.voice.is_voice_control_panel(message, bot) or self.level.is_level_up_message(message):
+        if not message.author.id == 758126661509447701 or self.voice.is_voice_control_panel(message, bot) or message.channel.id == 572149626535411723:
             return False 
         
         return True
