@@ -8,7 +8,7 @@ class GetMessageLog:
         メッセージログを取得します。
         """
         log = ""
-        async for message in channel.history(limit=limit):
+        async for message in channel.history(limit=limit, oldest_first=True):
             
             log += f"{message.author}({message.author.id}):{message.content}\n"
 
