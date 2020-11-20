@@ -22,7 +22,7 @@ class GetMessageLog:
                     log += f"↪{message.attachments[i].url}\n"
         
         log += f"\n総メッセージ数:{message_count}"
-        time = datetime.now()
+        time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         log += f"""
         \n\nこのメッセージログは、{time}時点の#{channel.name}のログを出力させたものです。\n
         このメッセージログの捏造等を固く禁じます。\n
