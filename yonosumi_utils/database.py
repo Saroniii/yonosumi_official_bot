@@ -53,6 +53,8 @@ class DropBox(Database):
     def __init__(self):
         self.dbx_token = os.environ["dropbox_token"]
         self.dbx = dropbox.Dropbox(self.dbx_token)
+        self.database_name = "yonosumi.db" #データベース名のセット
+        self.block_table_name = "block" #ブロックしているユーザーのテーブル名
         self.PATH_LOCAL = self.database_name
         self.PATH_DBX = f"/{self.database_name}"
 
