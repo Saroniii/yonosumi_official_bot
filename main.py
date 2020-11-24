@@ -2,6 +2,7 @@
 import discord
 from discord.ext import commands
 import os
+from yonosumi_utils import DropBox as dropbox
 
 TOKEN = os.environ['TOKEN']
 
@@ -26,6 +27,7 @@ class MyBot(commands.Bot):
 
         reloaded = discord.Game("起動中です・・・")
         await bot.change_presence(status=discord.Status.idle, activity=reloaded)
+        dropbox().download_database()
 
         print(f'import')
         if not self.loaded:
