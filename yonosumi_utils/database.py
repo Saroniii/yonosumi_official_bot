@@ -66,7 +66,6 @@ class DropBox(Database):
             database_name = self.database_name
 
         dbx = self.dbx
-        dbx.users_get_current_account()
         dbx.files_download_to_file(self.PATH_LOCAL, self.PATH_DBX)
 
     def upload_database(self, has_database: bool, database_name =None):
@@ -80,7 +79,6 @@ class DropBox(Database):
             database_name = self.database_name
         
         dbx :dropbox = self.dbx
-        dbx.users_get_current_account()
         with open(self.PATH_LOCAL, "rb") as f:
             dbx.files_upload(
                 f.read(),
