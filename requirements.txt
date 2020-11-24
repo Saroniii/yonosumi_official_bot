@@ -1,6 +1,5 @@
 aiohttp==3.7.3
 aiosqlite3==0.3.0
-aiosqlite3==0.3.0
 async-timeout==3.0.1
 asyncio==3.4.3
 discord.py==1.5.1
