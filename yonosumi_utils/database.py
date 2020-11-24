@@ -25,6 +25,8 @@ class Database:
             #row[0]->対象のユーザーID
             #row[1]->そのユーザーがブロックしているユーザーIDのリスト
             blocklist[row[0]] = self.convert_str_to_int_list_data(row[1])
+
+        await connect.close()
         
         return blocklist
     
