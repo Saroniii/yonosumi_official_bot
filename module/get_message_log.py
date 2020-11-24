@@ -16,7 +16,7 @@ class Cog(commands.Cog):
     async def get_message_log(self, ctx :commands.Bot, limit =None):
         
         if yonosumi_utils.is_nedoko(ctx.channel):
-            if not yonosumi_utils.check_owner(ctx.author, ctx.channel) or not self.staff.is_admin(self.bot, ctx):
+            if not yonosumi_utils.check_owner(ctx.author, ctx.channel) or not await self.staff.is_admin(self.bot, ctx):
                 return await ctx.send(f"{ctx.author.mention}->このコマンドは寝床所有者のみ使用できます！")
         
         else:
