@@ -7,11 +7,10 @@ class Cog(commands.Cog):
     def __init__(self, bot):
         self.bot=bot
         self.loop.start()
-        self.dropbox = dropbox()
 
     @tasks.loop(minutes=5)
     async def loop(self):
-        self.dropbox.upload_database(
+        dropbox().upload_database(
             has_database=self.dropbox.has_database(self.dropbox.database_name),
             database_name=self.dropbox.database_name
         )
