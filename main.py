@@ -27,7 +27,6 @@ class MyBot(commands.Bot):
 
         reloaded = discord.Game("起動中です・・・")
         await bot.change_presence(status=discord.Status.idle, activity=reloaded)
-        dropbox().download_database()
 
         print(f'import')
         if not self.loaded:
@@ -44,6 +43,7 @@ class MyBot(commands.Bot):
                 self.loaded = True
         print('------')
 
+        dropbox().download_database()
         yonosumi: discord.Guild = bot.get_guild(self.yonosumi_id)
         member_count = len(await yonosumi.fetch_members(limit=None).flatten())
         game = discord.Game(f"世の隅の{member_count}人と一緒にいるよ！")
