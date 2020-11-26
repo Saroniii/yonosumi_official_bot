@@ -127,3 +127,53 @@ class voice:
         コントロールパネルのdescriptionを呼び出すショートカット関数です。
         """
         return "ここでは、該当するリアクションを押すことで様々な設定を行うことが出来ます。\n\n✏：チャンネル名の変更\n\n🔒：利用可能人数の制限"
+
+    async def set_block_permission(self, member: discord.Member, channel :Union[discord.TextChannel, discord.VoiceChannel]):
+        """
+        チャンネルのブロック権限を適用します。
+        """
+        await channel.set_permissions(
+            target=member,
+            read_messages=False,
+        )
+    
+    async def generate_channels(self, category :discord.CategoryChannel, block_id_list: List[int], channel_owner :discord.Member, guild: discord.Guild):
+        """
+        チャンネルを自動生成します。
+        """
+        block_list = await self.convert_int_list_to_member_list(guild, block_id_list)
+
+        auto_voice_channel: discord.VoiceChannel = await category.create_voice_channel(
+            name=f"{channel_owner.name}の溜まり場",
+        )
+
+        auto_text_channel: discord.TextChannel = await category.create_text_channel(
+            name=f"{channel_owner.name}の溜まり場",
+            topic=self.generate_auto_voice_topic(
+                voice=auto_voice_channel,
+                member=channel_owner
+            )
+        )
+
+        auto_channels = [auto_text_channel, auto_voice_channel]
+
+        for block_user in block_list:
+            for auto_channel in auto_channels:
+                await auto_channel.set_permissions(block_user, read_messages=True, reason=f"ブロックされているユーザーなため")
+
+         
+
+    async def convert_int_list_to_member_list(self, guild: discord.Guild, member_id_list: List[int]) -> List[discord.Member]:
+        """
+        数値型のリストをメンバーのリストに変換します。
+        """
+        member_list = []
+        for member_id in member_id_list:
+            try:
+                member = await guild.fetch_member(member_id)
+                member_list.append(member)
+            except:
+                pass
+        
+        return member_list
+
