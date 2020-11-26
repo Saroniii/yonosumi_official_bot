@@ -46,7 +46,7 @@ class MyBot(commands.Bot):
         dropbox().download_database()
         yonosumi: discord.Guild = bot.get_guild(self.yonosumi_id)
         member_count = len(await yonosumi.fetch_members(limit=None).flatten())
-        game = discord.Game(f"世の隅の{member_count}人と一緒にいるよ！")
+        game = discord.Game(f"y/help｜世の隅の{member_count}人と一緒にいるよ！")
         await bot.change_presence(status=discord.Status.online,activity=game)
 
 intent :discord.Intents = discord.Intents.default()
