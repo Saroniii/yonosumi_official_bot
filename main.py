@@ -44,6 +44,11 @@ class MyBot(commands.Bot):
         print('------')
 
         dropbox().download_database()
+        database = Database()
+        self.block_list :dict = await database.set_blocklist(
+            has_database=database.has_database()
+        )
+
         yonosumi: discord.Guild = bot.get_guild(self.yonosumi_id)
         member_count = len(await yonosumi.fetch_members(limit=None).flatten())
         game = discord.Game(f"世の隅の{member_count}人と一緒にいるよ！")
