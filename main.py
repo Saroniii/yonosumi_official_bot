@@ -2,7 +2,7 @@
 import discord
 from discord.ext import commands
 import os
-from yonosumi_utils import DropBox as dropbox
+from yonosumi_utils import DropBox as dropbox, Database
 
 TOKEN = os.environ['TOKEN']
 
