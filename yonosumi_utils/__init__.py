@@ -6,4 +6,5 @@ from yonosumi_utils.voice import *
 from yonosumi_utils.level import *
 from yonosumi_utils.anonymous import *
 from yonosumi_utils.delete_bot_msgs import *
+from yonosumi_utils.database import *
 from yonosumi_utils.get_message_log import *

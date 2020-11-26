@@ -2,6 +2,7 @@
 import discord
 from discord.ext import commands
 import os
+from yonosumi_utils import DropBox as dropbox
 
 TOKEN = os.environ['TOKEN']
 
@@ -42,6 +43,7 @@ class MyBot(commands.Bot):
                 self.loaded = True
         print('------')
 
+        dropbox().download_database()
         yonosumi: discord.Guild = bot.get_guild(self.yonosumi_id)
         member_count = len(await yonosumi.fetch_members(limit=None).flatten())
         game = discord.Game(f"世の隅の{member_count}人と一緒にいるよ！")
