@@ -1,12 +1,18 @@
 import discord
 from discord.ext import commands
-from yonosumi_utils import my_channel
+from yonosumi_utils import my_channel, Database as database, BlockList as blocklist
 from typing import Union, Callable, List
 
 import yonosumi_utils
 
+reaction_list = ["✏", "🔒", "👀"]
 
-class voice:
+
+class Voice:
+
+    def __init__(self):
+        self.database = database()
+        self.blocklist = blocklist()
 
     def is_active(self, channel: discord.VoiceChannel, count_bots=True) -> bool:
         """
@@ -36,7 +42,7 @@ class voice:
         else:
             return False
 
-    def is_voice_control_panel(self, message: discord.Message, bot :commands.Bot) -> bool:
+    def is_voice_control_panel(self, message: discord.Message, bot: commands.Bot) -> bool:
         """
         指定したメッセージが自動生成されたボイスチャンネルのコントロールパネルか確認します。
         """
@@ -47,7 +53,6 @@ class voice:
                 return False
         except:
             return False
-
 
     def is_generate_voice_channel(self, channel: discord.VoiceChannel) -> bool:
         """
@@ -112,13 +117,13 @@ class voice:
         except:
             return None
 
-    def is_hide(self, channel :discord.VoiceChannel) -> bool:
-        guild :discord.Guild = channel.guild
+    def is_hide(self, channel: discord.VoiceChannel) -> bool:
+        guild: discord.Guild = channel.guild
         everyone_perms = dict(channel.overwrites_for(guild.default_role))
-        
+
         if everyone_perms['view_channel'] == True:
             return False
-        
+
         return True
 
     @staticmethod
@@ -128,7 +133,7 @@ class voice:
         """
         return "ここでは、該当するリアクションを押すことで様々な設定を行うことが出来ます。\n\n✏：チャンネル名の変更\n\n🔒：利用可能人数の制限"
 
-    async def set_block_permission(self, member: discord.Member, channel :Union[discord.TextChannel, discord.VoiceChannel]):
+    async def set_block_permission(self, member: discord.Member, channel: Union[discord.TextChannel, discord.VoiceChannel]):
         """
         チャンネルのブロック権限を適用します。
         """
@@ -136,8 +141,8 @@ class voice:
             target=member,
             read_messages=False,
         )
-    
-    async def generate_channels(self, category :discord.CategoryChannel, block_id_list: List[int], channel_owner :discord.Member, guild: discord.Guild):
+
+    async def generate_channels(self, category: discord.CategoryChannel, block_id_list: List[int], channel_owner: discord.Member, guild: discord.Guild):
         """
         チャンネルを自動生成します。
         """
@@ -159,21 +164,52 @@ class voice:
 
         for block_user in block_list:
             for auto_channel in auto_channels:
-                await auto_channel.set_permissions(block_user, read_messages=True, reason=f"ブロックされているユーザーなため")
+                await auto_channel.set_permissions(block_user, read_messages=False, reason=f"ブロックされているユーザーなため")
 
-         
+        await self.auto_voice_message_send(member=channel_owner, channel=auto_text_channel)
 
-    async def convert_int_list_to_member_list(self, guild: discord.Guild, member_id_list: List[int]) -> List[discord.Member]:
+        return auto_voice_channel, auto_text_channel
+
+    async def auto_voice_message_send(self, member: discord.Member, channel: discord.TextChannel):
         """
-        数値型のリストをメンバーのリストに変換します。
+        自動生成されたVCのメッセージを送信し、リアクションを追加します。
         """
-        member_list = []
-        for member_id in member_id_list:
-            try:
-                member = await guild.fetch_member(member_id)
-                member_list.append(member)
-            except:
-                pass
-        
-        return member_list
+        control_embed = discord.Embed(
+            title=f"{member.name}の溜まり場へようこそ！",
+            description=self.voice.control_panel_description()
+        )
 
+        msg: discord.Message = await channel.send(embed=control_embed)
+
+        global reaction_list
+
+        for emoji in reaction_list:
+            await msg.add_reaction(emoji)
+
+        await msg.pin()
+
+    async def add_block_user(self, member: discord.Member, target_id: int, has_database: bool, block_list: dict):
+        """
+        ブロックするユーザーを追加します。
+        """
+        if has_database == False:
+            return
+
+        block_list = await self.blocklist.get_user_block_data(
+            member=member,
+            block_list=block_list
+        )
+
+        if not block_list:
+            await self.database.execute_sql(
+                sql=f"INSERT INTO block VALUES({member.id},{target_id}"
+            )
+
+        else:
+            users: list = block_list[member.id]
+            targets = ",".join(users)
+            await self.database.execute_sql(
+                sql=f"INSERT INTO block VALUES({member.id},{targets}"
+            )
+
+        return await self.database.set_blocklist(has_database=self.database.has_database())
