@@ -1,5 +1,7 @@
+from typing import Callable, List
 import aiosqlite3
 import os
+import discord
 import dropbox
 
 class Database:
@@ -9,7 +11,7 @@ class Database:
         self.block_table_name = "block" #ブロックしているユーザーのテーブル名
         pass
 
-    async def set_blocklist(self, has_database: bool):
+    async def set_blocklist(self, has_database: bool) -> dict:
         """
         ユーザーのブロックリストを取得し、返します。
         """
@@ -47,6 +49,32 @@ class Database:
         文字列を数値型のリストに変換します。
         """
         return [int(i) for i in sentence.split(",")]
+
+    async def execute_sql(self, sql: str, has_database, database ="yonosumi.db"):
+        """
+        SQLを実行します。
+        """
+        if has_database == False:
+            return
+        conn: aiosqlite3.Connection = await aiosqlite3.connect(database)
+        c: aiosqlite3.Cursor = await conn.cursor()
+        await c.execute(sql)
+        await c.close()
+        await conn.close()
+
+    async def convert_int_list_to_member_list(self, guild: discord.Guild, member_id_list: List[int]) -> List[discord.Member]:
+        """
+        数値型のリストをメンバーのリストに変換します。
+        """
+        member_list = []
+        for member_id in member_id_list:
+            try:
+                member = await guild.fetch_member(member_id)
+                member_list.append(member)
+            except:
+                pass
+
+        return member_list
 
 class DropBox(Database):
 
