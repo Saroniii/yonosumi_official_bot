@@ -5,8 +5,7 @@ from yonosumi_utils import my_channel
 import discord
 import yonosumi_utils
 from discord.ext import commands
-from yonosumi_utils import YonosumiMsg as msg
-from yonosumi_utils import voice
+from yonosumi_utils import YonosumiMsg as msg, Voice as voice, Database as database, BlockList as blocklist
 
 reaction_list = ["✏", "🔒","👀"]
 
@@ -16,6 +15,8 @@ class Cog(commands.Cog):
         self.bot=bot
         self.voice = voice()
         self.msg = msg()
+        self.database = database()
+        self.blocklist = blocklist()
 
     @commands.Cog.listener()
     async def on_voice_state_update(self, member :discord.Member, before :discord.VoiceState, after :discord.VoiceState):
@@ -30,18 +31,16 @@ class Cog(commands.Cog):
 
         elif self.voice.is_active(member.voice.channel, count_bots = False) and self.voice.is_generate_voice_channel(member.voice.channel):
             
-            author_channel :discord.VoiceChannel = member.voice.channel
-            voicechannel: discord.VoiceChannel = await author_channel.category.create_voice_channel(
-                name=f"{member.name}の溜まり場"
+            block_ids = self.blocklist.get_user_block_data(member, self.bot.block_list)
+            channels = await self.voice.generate_channels(
+                category=category,
+                block_id_list=block_ids,
+                channel_owner=member,
+                guild=member.guild
                 )
             
-            textchannel: discord.TextChannel = await author_channel.category.create_text_channel(
-                name=f"{member.name}の溜まり場",
-                topic=self.voice.generate_auto_voice_topic(
-                    voice=voicechannel,
-                    member=member
-                    )
-                )
+            voicechannel = channels[0]
+            textchannel = channels[1]
             
             await member.move_to(voicechannel, reason = "VCの自動生成が完了したため")
             control_embed = discord.Embed(
