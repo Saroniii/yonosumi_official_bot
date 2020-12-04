@@ -8,3 +8,4 @@ from yonosumi_utils.anonymous import *
 from yonosumi_utils.delete_bot_msgs import *
 from yonosumi_utils.database import *
 from yonosumi_utils.get_message_log import *
+from yonosumi_utils.privatechannel import *
