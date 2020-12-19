@@ -7,6 +7,7 @@ class Database:
     def __init__(self):
         self.database_name = "yonosumi.db" #データベース名のセット
         self.block_table_name = "block" #ブロックしているユーザーのテーブル名
+        self.anonymous_vote_table_name ="anonymous_vote"
         pass
 
     async def set_blocklist(self, has_database: bool):
