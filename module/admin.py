@@ -11,7 +11,8 @@ class Cog(commands.Cog):
     @commands.command()
     async def clone_channel(self, ctx, channel: Union[discord.CategoryChannel, discord.TextChannel, discord.VoiceChannel]):
         if (await YonosumiStaff.is_admin(self.bot, ctx)):
-            await channel.clone(reason="cloneコマンドを使用したため")
+            cloned_channel = await channel.clone(reason="cloneコマンドを使用したため")
+            await ctx.send(f"{ctx.author.mention}->{channel}を複製しました！({cloned_channel})")
 
 
 def setup(bot):
