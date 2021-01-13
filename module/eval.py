@@ -24,7 +24,7 @@ class Eval(commands.Cog):
     @commands.command(name="eval", aliases=["do", "dev"])
     async def _eval(self, ctx, *, code):
         # https://github.com/Rapptz/RoboDanny/blob/rewrite/cogs/admin.py#L216-L261
-        if await staff.is_admin(self.bot, ctx):
+        if (await staff.is_admin(self.bot, ctx)):
             env = {
                 'bot': self.bot,
                 'ctx': ctx,
