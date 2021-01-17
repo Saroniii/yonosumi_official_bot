@@ -22,7 +22,7 @@ class Cog(commands.Cog):
             making_nedoko: discord.CategoryChannel = self.bot.get_channel(making_nedoko_category_id)
 
             nedoko: discord.TextChannel = await making_nedoko.create_text_channel(name=f"{owner.name}の寝床")
-            await nedoko.set_permissions(owner, read_messages=True, manage_channels=True, manage_messages=True)
+            await nedoko.set_permissions(owner, read_messages=True, manage_channels=True, manage_messages=True,send_messages=True, create_invite=False)
 
             await ctx.send(content=f"{ctx.author.mention}->`{owner}`の寝床を作成しました。({nedoko.mention})")
 
