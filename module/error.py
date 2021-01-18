@@ -89,9 +89,6 @@ class Cog(commands.Cog):
                 pass
             await waiting.edit(content=f"{ctx.author.mention}->", embed=embed)
             return
-        elif isinstance(error, commands.CommandInvokeError) and ctx.command.name in self.bot.staff_only:
-            await waiting.edit(content=f"{ctx.author.mention}->このコマンドを実行する権限がありません！")
-            return
         elif isinstance(error, (commands.MissingPermissions, commands.BotMissingPermissions)):
             perm = error.missing_perms[0]
             try:
