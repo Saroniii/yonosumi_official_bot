@@ -110,7 +110,7 @@ class Cog(commands.Cog):
         for i in range(len(s_error)):
             while len("".join(s_error[i:i+2])) < 2000-15 and len("".join(s_error[i+1:])) != 0:
                 s_error[i:i+2] = ["".join(s_error[i:i+2])]
-        webhook = await self.bot.fetch_webhook(758137238029598760)
+        webhook = await self.bot.fetch_webhook(800731709104324658)
         for i in range(0, len(s_error), 3):
             await webhook.send(embeds=[discord.Embed(description=f"```py\n{y}```").set_footer(text=f"{i+x+1}/{len(s_error)}") for x, y in enumerate(s_error[i:i+3])])
 
