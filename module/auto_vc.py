@@ -28,7 +28,7 @@ class Cog(commands.Cog):
                 await self.voice.clean_null_auto_voice_channels(category)
                 )
 
-        elif self.voice.is_active(member.voice.channel, count_bots = False) and self.voice.is_generate_voice_channel(member.voice.channel):
+        elif self.voice.is_active(member.voice.channel, count_bots = False) and self.voice.is_generate_voice_channel(member.voice.channel) and not before.channel:
             
             author_channel :discord.VoiceChannel = member.voice.channel
             voicechannel: discord.VoiceChannel = await author_channel.category.create_voice_channel(
