@@ -7,7 +7,7 @@ class Cog(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
-        self.bot.shiritori_ch_id = 826776534526197770
+        self.shiritori_ch_id = 826776534526197770
 
     @commands.Cog.listener()
     async def on_message(self, message: discord.Message):
