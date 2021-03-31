@@ -5,7 +5,7 @@ import asyncio
 
 class Cog(commands.Cog):
 
-    def __init__(self):
+    def __init__(self, bot):
         self.bot = bot
         self.bot.shiritori_ch_id = 826776534526197770
 
@@ -19,7 +19,6 @@ class Cog(commands.Cog):
         async for msg in message.channel.history(limit=25):
 
             if msg.content == message.content and not msg == message and message.content or msg.content is None:
-
                 await message.delete()
                 content = f"{message.author.mention}->{message.content}は25メッセージ以内に既に使われています！"
 
@@ -34,3 +33,7 @@ class Cog(commands.Cog):
                 return
 
         await message.add_reaction("✅")
+
+
+def setup(bot):
+    bot.add_cog(Cog(bot))
