@@ -6,21 +6,22 @@ from typing import Union, Callable, List
 import yonosumi_utils
 
 
-class voice:
+class Voice:
 
+    @staticmethod
     def is_active(self, channel: discord.VoiceChannel, count_bots=True) -> bool:
         """
         通話に人がいるかどうかを確認します。
         """
 
-        if count_bots == True:
+        if count_bots:
             member_count: int = len(channel.members)
 
         else:
             member_count: int = len(
-                [i for i in channel.members if i.bot == False])
+                [i for i in channel.members if i.bot is False])
 
-        if channel == None or member_count > 0:
+        if channel is None or member_count > 0:
             return True
 
         else:
@@ -36,7 +37,7 @@ class voice:
         else:
             return False
 
-    def is_voice_control_panel(self, message: discord.Message, bot :commands.Bot) -> bool:
+    def is_voice_control_panel(self, message: discord.Message, bot: commands.Bot) -> bool:
         """
         指定したメッセージが自動生成されたボイスチャンネルのコントロールパネルか確認します。
         """
@@ -47,7 +48,6 @@ class voice:
                 return False
         except:
             return False
-
 
     def is_generate_voice_channel(self, channel: discord.VoiceChannel) -> bool:
         """
@@ -64,7 +64,8 @@ class voice:
         指定されたチャンネルが生成されたボイスチャンネルか確認します。
         """
         voice_category_id = 770140316078309416
-        if voice_category_id == channel.category.id and not self.is_generate_voice_channel(channel) and channel != channel.guild.afk_channel:
+        if voice_category_id == channel.category.id and not self.is_generate_voice_channel(
+                channel) and channel != channel.guild.afk_channel:
             return True
         else:
             return False
@@ -88,7 +89,8 @@ class voice:
                     await channel.delete(reason="誰もいないため")
         return id_list
 
-    async def clean_null_auto_text_channels(self, category: discord.CategoryChannel, channels: Callable[[discord.CategoryChannel], list]):
+    async def clean_null_auto_text_channels(self, category: discord.CategoryChannel,
+                                            channels: Callable[[discord.CategoryChannel], list]):
         """
         使われていない自動生成されたテキストチャンネルを検知し、削除します。
         ※第二引数でclean_null_auto_voice_channelsを呼び出す想定で実装しています。
@@ -112,13 +114,13 @@ class voice:
         except:
             return None
 
-    def is_hide(self, channel :discord.VoiceChannel) -> bool:
-        guild :discord.Guild = channel.guild
+    def is_hide(self, channel: discord.VoiceChannel) -> bool:
+        guild: discord.Guild = channel.guild
         everyone_perms = dict(channel.overwrites_for(guild.default_role))
-        
+
         if everyone_perms['view_channel'] == True:
             return False
-        
+
         return True
 
     @staticmethod
