@@ -6,7 +6,7 @@ from yonosumi_utils import voice, Level as level
 class DeleteMessage:
 
     def __init__(self):
-        self.voice = voice()
+        self.voice = Voice()
         self.level = level()
         pass
 

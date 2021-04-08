@@ -4,9 +4,9 @@ from yonosumi_utils import my_channel
 
 import discord
 import yonosumi_utils
-from discord.ext import commands, tasks
+from discord.ext import commands
 from yonosumi_utils import YonosumiMsg as msg
-from yonosumi_utils import Voice
+from yonosumi_utils import voice
 
 reaction_list = ["✏", "🔒", "👀"]
 
@@ -14,10 +14,9 @@ reaction_list = ["✏", "🔒", "👀"]
 class Cog(commands.Cog):
 
     def __init__(self, bot):
-        self.bot: commands.Bot = bot
-        self.voice = Voice()
+        self.bot = bot
+        self.voice = voice()
         self.msg = msg()
-        self.voice_check.start()
 
     @commands.Cog.listener()
     async def on_voice_state_update(self, member: discord.Member, before: discord.VoiceState,
@@ -35,25 +34,25 @@ class Cog(commands.Cog):
                 member.voice.channel) and not before.channel:
 
             author_channel: discord.VoiceChannel = member.voice.channel
-            voice_channel: discord.VoiceChannel = await author_channel.category.create_voice_channel(
+            voicechannel: discord.VoiceChannel = await author_channel.category.create_voice_channel(
                 name=f"{member.name}の溜まり場"
             )
 
-            text_channel: discord.TextChannel = await author_channel.category.create_text_channel(
+            textchannel: discord.TextChannel = await author_channel.category.create_text_channel(
                 name=f"{member.name}の溜まり場",
                 topic=self.voice.generate_auto_voice_topic(
-                    voice=voice_channel,
+                    voice=voicechannel,
                     member=member
                 )
             )
 
-            await member.move_to(voice_channel, reason="VCの自動生成が完了したため")
+            await member.move_to(voicechannel, reason="VCの自動生成が完了したため")
             control_embed = discord.Embed(
                 title=f"{member.name}の溜まり場へようこそ！",
                 description=self.voice.control_panel_description()
             )
 
-            msg: discord.Message = await text_channel.send(embed=control_embed)
+            msg: discord.Message = await textchannel.send(embed=control_embed)
 
             global reaction_list
 
@@ -146,13 +145,13 @@ class Cog(commands.Cog):
 
         elif str(payload.emoji) == "👀":
 
-            if not self.voice.is_hide(payload.member.Voice.channel):
+            if not self.voice.is_hide(payload.member.voice.channel):
 
                 result = "非公開"
 
                 vc: discord.VoiceChannel = self.bot.get_channel(my_channel.get_topic(channel, split=True)[1])
 
-                for member in payload.member.Voice.members:
+                for member in payload.member.voice.members:
                     await channel.set_permissions(
                         target=member,
                         view_channel=True,
@@ -195,19 +194,6 @@ class Cog(commands.Cog):
             await channel.send(
                 content=f"{payload.member.mention}->このVCを``{result}``にしました！"
             )
-
-    @tasks.loop(minutes=5)
-    async def voice_check(self):
-        category_id = 770140316078309416
-        category: discord.CategoryChannel = self.bot.get_channel(category_id)
-        activity = discord.Game("VCの削除チェックを実行しています...")
-        await self.bot.change_presence(activity=activity, status=discord.Status.dnd)
-        await self.voice.clean_null_auto_text_channels(
-            category,
-            await self.voice.clean_null_auto_voice_channels(category)
-        )
-        activity = discord.Game(f"y/help｜世の隅の{self.bot.users}人と一緒にいるよ！")
-        await self.bot.change_presence(activity=activity, status=discord.Status.online)
 
 
 def setup(bot):
