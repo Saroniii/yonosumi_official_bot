@@ -11,7 +11,7 @@ class Cog(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message: discord.Message):
-        if message.author.bot or not message.channel.id == self.shiritori_ch_id:
+        if message.author.bot or not message.channel.id == self.bot.shiritori_ch_id:
             return
 
         msg: discord.Message
