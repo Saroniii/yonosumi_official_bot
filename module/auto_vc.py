@@ -23,11 +23,12 @@ class Cog(commands.Cog):
                                     after: discord.VoiceState):
         category_id = 770140316078309416
         category: discord.CategoryChannel = self.bot.get_channel(category_id)
+        ignore_vcs = [831044684226625546]
 
         if member.voice is None:
             await self.voice.clean_null_auto_text_channels(
                 category,
-                await self.voice.clean_null_auto_voice_channels(category)
+                await self.voice.clean_null_auto_voice_channels(category, ignore_vcs)
             )
 
         elif self.voice.is_active(member.voice.channel, count_bots=False) and self.voice.is_generate_voice_channel(

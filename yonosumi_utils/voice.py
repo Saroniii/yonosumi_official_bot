@@ -75,7 +75,7 @@ class voice:
         """
         return f"これは自動生成されたテキストチャンネルです。\n{voice.id}\n{member.id}"
 
-    async def clean_null_auto_voice_channels(self, category: discord.CategoryChannel) -> List[str]:
+    async def clean_null_auto_voice_channels(self, category: discord.CategoryChannel, ignore_vcs: list) -> List[str]:
         """
         誰もいない自動生成されたボイスチャンネルを検知し、削除します。
         """
@@ -83,7 +83,7 @@ class voice:
         channel: discord.VoiceChannel
         for channel in category.channels:
             if type(channel) == discord.VoiceChannel:
-                if not self.is_active(channel) and self.is_auto_voice_channel(channel):
+                if not self.is_active(channel) and self.is_auto_voice_channel(channel) and not channel.id in ignore_vcs:
                     id_list.append(str(channel.id))
                     await channel.delete(reason="誰もいないため")
         return id_list
